@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Test</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #6366f1;
+        }
+        .test-links {
+            margin-top: 30px;
+        }
+        .test-links a {
+            display: block;
+            margin: 10px 0;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+        .test-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Favicon 测试页面</h1>
+    <p>如果浏览器标签页显示了FT图标，说明favicon配置成功！</p>
+    
+    <div class="test-links">
+        <h3>测试链接：</h3>
+        <a href="/favicon.ico" target="_blank">直接访问 favicon.ico</a>
+        <a href="/favicon.png" target="_blank">直接访问 favicon.png</a>
+    </div>
+    
+    <div style="margin-top: 30px; padding: 20px; background: #f0f0f0; border-radius: 8px;">
+        <h3>图标预览：</h3>
+        <img src="/favicon.ico" alt="Favicon" style="width: 64px; height: 64px;">
+        <img src="/favicon.png" alt="Favicon PNG" style="width: 64px; height: 64px;">
+    </div>
+</body>
+</html>

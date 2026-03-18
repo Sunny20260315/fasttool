@@ -1,0 +1,48 @@
+{
+  "site": {
+    "name": "FastTool",
+    "title": "Free online image conversion - Complete collection of PDF conversion Tools - FastTool",
+    "description": "FastTool offers free online tools such as image compression, format conversion, PDF compression, and PDF to Word conversion. No registration is required and local processing is safer."
+  },
+  "nav": {
+    "home": "Home",
+    "tools": "All Tools",
+    "imageTools": "Image Tools",
+    "pdfTools": "PDF Convert",
+    "faq": "FAQ",
+    "contact": "Contact Us",
+    "about": "About FastTool",
+    "privacy": "Privacy"
+  },
+  "home": {
+    "heroTitle": "Free Online FastTool",
+    "heroSubtitle": "Compress, convert and resize images instantly.",
+    "popularTitle": "Popular Tools",
+    "seoTitle": "Why choose FastTool",
+    "seoText": "FastTool helps creators optimize images in the browser with no sign-up and no server upload. It is fast, private and SEO-friendly for discoverability.",
+    "faqTitle": "Frequently Asked Questions",
+    "faqQ1": "Are my images uploaded to your server?",
+    "faqA1": "No. Processing is done in your browser whenever possible.",
+    "faqQ2": "Can I use it on mobile?",
+    "faqA2": "Yes, all tools are responsive and mobile-friendly.",
+    "faqQ3": "Is this free?",
+    "faqA3": "Yes, core tools are free to use."
+  },
+  "tool": {
+    "uploadHint": "Drag and drop an image here, or click to choose.",
+    "fileSize": "File size",
+    "dimensions": "Dimensions",
+    "download": "Download",
+    "howTo": "How to use",
+    "faq": "FAQ",
+    "introduction": "Introduction",
+    "settings": "Settings",
+    "quality": "Compression quality",
+    "run": "Compress Image",
+    "processing": "Processing...",
+    "noResult": "No output yet. Upload an image and start processing."
+  },
+  "footer": {
+    "copyright": "All rights reserved."
+  }
+}

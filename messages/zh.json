@@ -1,0 +1,48 @@
+{
+  "site": {
+    "name": "FastTool",
+    "title": "免费在线图片转换_PDF转换工具大全 - FastTool",
+    "description": "FastTool提供免费在线图片压缩、格式转换、PDF压缩、PDF转Word等工具，无需注册，本地处理更安全。"
+  },
+  "nav": {
+    "home": "首页",
+    "tools": "所有工具",
+    "imageTools": "图片工具",
+    "pdfTools": "PDF转换",
+    "faq": "常见问题",
+    "contact": "联系我们",
+    "about": "关于 FastTool",
+    "privacy": "隐私"
+  },
+  "home": {
+    "heroTitle": "免费在线图片工具",
+    "heroSubtitle": "即时压缩、转换与调整图片尺寸。",
+    "popularTitle": "热门工具",
+    "seoTitle": "为什么选择 FastTool",
+    "seoText": "FastTool 优先在浏览器端处理图片，无需注册、无需服务器上传，速度快且更注重隐私，页面结构也对搜索引擎更友好。",
+    "faqTitle": "常见问题",
+    "faqQ1": "图片会上传到服务器吗？",
+    "faqA1": "不会。大多数处理在浏览器本地完成。",
+    "faqQ2": "支持手机端吗？",
+    "faqA2": "支持，所有工具页面都是响应式设计。",
+    "faqQ3": "可以免费使用吗？",
+    "faqA3": "可以，核心工具免费使用。"
+  },
+  "tool": {
+    "uploadHint": "拖拽图片到此处，或点击选择文件。",
+    "fileSize": "文件大小",
+    "dimensions": "尺寸",
+    "download": "下载",
+    "howTo": "使用教程",
+    "faq": "常见问题",
+    "introduction": "工具介绍",
+    "settings": "参数设置",
+    "quality": "压缩质量",
+    "run": "开始压缩",
+    "processing": "处理中...",
+    "noResult": "暂无输出结果，请先上传图片并开始处理。"
+  },
+  "footer": {
+    "copyright": "保留所有权利。"
+  }
+}
