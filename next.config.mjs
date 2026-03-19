@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: 'dist',
   reactStrictMode: true,
   // 全局启用 Edge Runtime
   experimental: {
