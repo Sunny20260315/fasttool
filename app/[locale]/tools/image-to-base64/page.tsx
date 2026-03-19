@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ImageToBase64Tool } from "@/components/tools/ImageToBase64Tool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const ImageToBase64Tool = dynamic(() => import("@/components/tools/ImageToBase64Tool").then((module) => ({ default: module.ImageToBase64Tool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert images to Base64 encoding online with browser-side processing for privacy."
   };
 }
+
 
 export default function ImageToBase64Page({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -56,6 +61,5 @@ export default function ImageToBase64Page({ params }: { params: { locale: string
       ]}
     >
       <ImageToBase64Tool locale={params.locale} />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

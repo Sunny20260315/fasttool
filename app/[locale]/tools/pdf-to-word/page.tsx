@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PdfToWordTool } from "@/components/tools/PdfToWordTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const PdfToWordTool = dynamic(() => import("@/components/tools/PdfToWordTool").then((module) => ({ default: module.PdfToWordTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert PDF to editable Word documents online with browser-side processing for privacy."
   };
 }
+
 
 export default function PdfToWordPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -56,6 +61,5 @@ export default function PdfToWordPage({ params }: { params: { locale: string } }
       ]}
     >
       <PdfToWordTool locale={params.locale} />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PlaceholderTool } from "@/components/tools/PlaceholderTool";
+import dynamic from "next/dynamic";
 import { isLocale } from "@/lib/i18n";
+
+const PlaceholderTool = dynamic(() => import("@/components/tools/PlaceholderTool").then((module) => ({ default: module.PlaceholderTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
   };
 }
 
+
 export default function PngToWebpPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
   return (
@@ -25,6 +30,5 @@ export default function PngToWebpPage({ params }: { params: { locale: string } }
       locale={params.locale}
       title="PNG to WEBP"
       description={params.locale === "zh" ? "将 PNG 格式转换为更小体积的 WEBP。" : "Convert PNG files into smaller WEBP images."}
-    />
-  );
+    />);
 }

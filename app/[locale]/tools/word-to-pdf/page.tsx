@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { GenericPdfConverterTool } from "@/components/tools/GenericPdfConverterTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const GenericPdfConverterTool = dynamic(() => import("@/components/tools/GenericPdfConverterTool").then((module) => ({ default: module.GenericPdfConverterTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert Word documents to PDF online with browser-side processing for privacy."
   };
 }
+
 
 export default function WordToPdfPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -61,6 +66,5 @@ export default function WordToPdfPage({ params }: { params: { locale: string } }
         mimeType="application/pdf" 
         description={params.locale === "zh" ? "将 Word 文档转换为 PDF 文件" : "Convert Word documents to PDF files"}
       />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

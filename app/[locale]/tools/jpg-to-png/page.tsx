@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PlaceholderTool } from "@/components/tools/PlaceholderTool";
+import dynamic from "next/dynamic";
 import { isLocale } from "@/lib/i18n";
+
+const PlaceholderTool = dynamic(() => import("@/components/tools/PlaceholderTool").then((module) => ({ default: module.PlaceholderTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
   };
 }
 
+
 export default function JpgToPngPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
   return (
@@ -25,6 +30,5 @@ export default function JpgToPngPage({ params }: { params: { locale: string } })
       locale={params.locale}
       title="JPG to PNG"
       description={params.locale === "zh" ? "将 JPG 格式快速转换为 PNG。" : "Convert JPG files to PNG quickly."}
-    />
-  );
+    />);
 }

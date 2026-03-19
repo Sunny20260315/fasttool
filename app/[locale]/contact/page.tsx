@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { isLocale } from "@/lib/i18n";
 import wxImage from "../../../public/wx.jpg";
 import xhsImage from "../../../public/xhs.jpg";
@@ -87,15 +88,15 @@ export default function ContactPage({
           <div className="grid grid-cols-2 gap-8">
             <div className="text-center">
               <h3 className="text-lg font-medium text-gray-900 mb-3">{isZh ? "微信" : "WeChat"}</h3>
-              <div className="mx-auto w-48 h-48 bg-white p-2 border border-gray-200 rounded-lg shadow-sm">
-                <img src={wxImage.src} alt="WeChat QR Code" className="w-full h-full object-contain" />
+              <div className="mx-auto w-48 h-48 bg-white p-2 border border-gray-200 rounded-lg shadow-sm relative">
+                <Image src={wxImage} alt="WeChat QR Code" fill className="object-contain" />
               </div>
               <p className="mt-3 text-sm text-gray-600">{isZh ? "扫码联系我" : "Scan to follow"}</p>
             </div>
             <div className="text-center">
               <h3 className="text-lg font-medium text-gray-900 mb-3">{isZh ? "小红书" : "Xiaohongshu"}</h3>
-              <div className="mx-auto w-48 h-48 bg-white p-2 border border-gray-200 rounded-lg shadow-sm">
-                <img src={xhsImage.src} alt="Xiaohongshu QR Code" className="w-full h-full object-contain" />
+              <div className="mx-auto w-48 h-48 bg-white p-2 border border-gray-200 rounded-lg shadow-sm relative">
+                <Image src={xhsImage} alt="Xiaohongshu QR Code" fill className="object-contain" />
               </div>
               <p className="mt-3 text-sm text-gray-600">{isZh ? "扫码关注小红书" : "Scan to follow"}</p>
             </div>

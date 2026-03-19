@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ToolsGrid } from "@/components/ToolsGrid";
 import { getMessages, isLocale } from "@/lib/i18n";
-import ToolTabs from "@/components/ToolTabs";
+import dynamic from "next/dynamic";
+
+const ToolsGrid = dynamic(() => import("@/components/ToolsGrid").then((module) => ({ default: module.ToolsGrid })), {
+  ssr: false,
+});
+
+const ToolTabs = dynamic(() => import("@/components/ToolTabs"), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params

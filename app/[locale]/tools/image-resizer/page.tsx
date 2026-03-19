@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ImageResizerTool } from "@/components/tools/ImageResizerTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const ImageResizerTool = dynamic(() => import("@/components/tools/ImageResizerTool").then((module) => ({ default: module.ImageResizerTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Resize images online with percentage scaling, preset sizes, and custom dimensions. Browser-side processing for privacy."
   };
 }
+
 
 export default function ImageResizerPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -73,6 +78,5 @@ export default function ImageResizerPage({ params }: { params: { locale: string 
       ]}
     >
       <ImageResizerTool locale={params.locale} />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

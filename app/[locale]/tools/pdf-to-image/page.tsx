@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PdfToImageTool } from "@/components/tools/PdfToImageTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const PdfToImageTool = dynamic(() => import("@/components/tools/PdfToImageTool").then((module) => ({ default: module.PdfToImageTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert PDF to images online with browser-side processing for privacy."
   };
 }
+
 
 export default function PdfToImagePage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();

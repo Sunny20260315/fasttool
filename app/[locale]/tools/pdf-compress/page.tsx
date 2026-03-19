@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PdfCompressTool } from "@/components/tools/PdfCompressTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const PdfCompressTool = dynamic(() => import("@/components/tools/PdfCompressTool").then((module) => ({ default: module.PdfCompressTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Compress PDF files online with browser-side processing for speed and privacy."
   };
 }
+
 
 export default function PdfCompressPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -56,6 +61,5 @@ export default function PdfCompressPage({ params }: { params: { locale: string }
       ]}
     >
       <PdfCompressTool locale={params.locale} />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

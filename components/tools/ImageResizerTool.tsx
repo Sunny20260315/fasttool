@@ -63,7 +63,7 @@ export function ImageResizerTool({ locale }: Props) {
         setHeight(newHeight);
       }
     }
-  }, [width, uploaded, maintainAspectRatio, resizeMode]);
+  }, [width, height, uploaded, maintainAspectRatio, resizeMode]);
 
   // 预设尺寸
   const presets = [

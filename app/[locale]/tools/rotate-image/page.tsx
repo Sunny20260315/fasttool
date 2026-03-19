@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { RotateImageTool } from "@/components/tools/RotateImageTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const RotateImageTool = dynamic(() => import("@/components/tools/RotateImageTool").then((module) => ({ default: module.RotateImageTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Rotate images online with browser-side processing for speed and privacy."
   };
 }
+
 
 export default function RotateImagePage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -56,6 +61,5 @@ export default function RotateImagePage({ params }: { params: { locale: string }
       ]}
     >
       <RotateImageTool locale={params.locale} />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Base64ToImageTool } from "@/components/tools/Base64ToImageTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const Base64ToImageTool = dynamic(() => import("@/components/tools/Base64ToImageTool").then((module) => ({ default: module.Base64ToImageTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert Base64 encoded text into image files with browser-side processing for speed and privacy."
   };
 }
+
 
 export default function Base64ToImagePage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -66,6 +71,5 @@ export default function Base64ToImagePage({ params }: { params: { locale: string
       ]}
     >
       <Base64ToImageTool locale={params.locale} />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

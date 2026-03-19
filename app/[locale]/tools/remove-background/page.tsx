@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PlaceholderTool } from "@/components/tools/PlaceholderTool";
+import dynamic from "next/dynamic";
 import { isLocale } from "@/lib/i18n";
+
+const PlaceholderTool = dynamic(() => import("@/components/tools/PlaceholderTool").then((module) => ({ default: module.PlaceholderTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
   };
 }
 
+
 export default function RemoveBackgroundPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
   return (
@@ -27,6 +32,5 @@ export default function RemoveBackgroundPage({ params }: { params: { locale: str
       description={
         params.locale === "zh" ? "背景移除功能占位页，后续可接入 AI 抠图能力。" : "Placeholder page for future AI background removal."
       }
-    />
-  );
+    />);
 }

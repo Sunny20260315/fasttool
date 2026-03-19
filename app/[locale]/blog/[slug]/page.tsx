@@ -346,6 +346,18 @@ function getBlogPost(locale: string, slug: string) {
   return posts.find(post => post.slug === slug);
 }
 
+export async function generateStaticParams(): Promise<{ locale: string; slug: string }[]> {
+  const locales = ["en", "zh"];
+  const params: { locale: string; slug: string }[] = [];
+  for (const locale of locales) {
+    const posts = generateBlogPosts(locale);
+    for (const post of posts) {
+      params.push({ locale, slug: post.slug });
+    }
+  }
+  return params;
+}
+
 export async function generateMetadata({
   params
 }: {

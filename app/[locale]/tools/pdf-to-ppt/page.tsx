@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { GenericPdfConverterTool } from "@/components/tools/GenericPdfConverterTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const GenericPdfConverterTool = dynamic(() => import("@/components/tools/GenericPdfConverterTool").then((module) => ({ default: module.GenericPdfConverterTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert PDF to presentation online with browser-side processing for privacy."
   };
 }
+
 
 export default function PdfToPptPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -61,6 +66,5 @@ export default function PdfToPptPage({ params }: { params: { locale: string } })
         mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation" 
         description={params.locale === "zh" ? "将 PDF 文件转换为可编辑的 PPT 演示文稿" : "Convert PDF files to editable PPT presentations"}
       />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

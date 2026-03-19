@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { createCanvas } = require('canvas');
+import fs from 'fs';
+import path from 'path';
+import { createCanvas } from 'canvas';
 
 // 创建一个简单的32x32的画布
 const canvas = createCanvas(32, 32);

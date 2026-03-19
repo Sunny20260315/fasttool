@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CompressImageTool } from "@/components/tools/CompressImageTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const CompressImageTool = dynamic(() => import("@/components/tools/CompressImageTool").then((module) => ({ default: module.CompressImageTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Compress image files online with browser-side processing for speed and privacy."
   };
 }
+
 
 export default function CompressImagePage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();

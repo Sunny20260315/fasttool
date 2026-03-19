@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { HeicToJpgTool } from "@/components/tools/HeicToJpgTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const HeicToJpgTool = dynamic(() => import("@/components/tools/HeicToJpgTool").then((module) => ({ default: module.HeicToJpgTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert HEIC format to JPG online with browser-side processing for speed and privacy."
   };
 }
+
 
 export default function HeicToJpgPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -56,6 +61,5 @@ export default function HeicToJpgPage({ params }: { params: { locale: string } }
       ]}
     >
       <HeicToJpgTool locale={params.locale} />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

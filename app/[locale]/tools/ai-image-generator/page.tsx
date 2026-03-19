@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AiImageGeneratorTool } from "@/components/tools/AiImageGeneratorTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const AiImageGeneratorTool = dynamic(() => import("@/components/tools/AiImageGeneratorTool").then((module) => ({ default: module.AiImageGeneratorTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Frontend-only AI image generator with prompt, size, style and local history."
   };
 }
+
 
 export default function AiImageGeneratorPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();

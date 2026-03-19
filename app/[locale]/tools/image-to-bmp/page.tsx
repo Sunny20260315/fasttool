@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ImageConverterTool } from "@/components/tools/ImageConverterTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const ImageConverterTool = dynamic(() => import("@/components/tools/ImageConverterTool").then((module) => ({ default: module.ImageConverterTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert images to BMP format online with browser-side processing for speed and privacy."
   };
 }
+
 
 export default function ImageToBmpPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
@@ -56,6 +61,5 @@ export default function ImageToBmpPage({ params }: { params: { locale: string } 
       ]}
     >
       <ImageConverterTool locale={params.locale} targetFormat="bmp" mimeType="image/bmp" />
-    </ToolLayout>
-  );
+    </ToolLayout>);
 }

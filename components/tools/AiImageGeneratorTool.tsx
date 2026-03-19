@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { Download, Loader2, RefreshCcw, Trash2 } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -228,9 +229,11 @@ export function AiImageGeneratorTool({ locale }: Props) {
         <CardContent>
           {imageSrc ? (
             <div className="space-y-4">
-              <img
+              <Image
                 src={imageSrc}
                 alt={isZh ? "AI 生成结果" : "AI generated result"}
+                width={800}
+                height={800}
                 className="w-full max-w-[800px] rounded-xl border border-gray-200 object-contain"
                 loading="lazy"
               />
@@ -288,9 +291,11 @@ export function AiImageGeneratorTool({ locale }: Props) {
                   }}
                   className="rounded-xl border border-gray-200 bg-white p-3 text-left transition hover:bg-gray-50"
                 >
-                  <img
+                  <Image
                     src={item.imageSrc}
                     alt={item.prompt}
+                    width={400}
+                    height={300}
                     className="mb-2 h-28 w-full rounded-lg object-cover"
                     loading="lazy"
                   />

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ImageToIcoTool } from "@/components/tools/ImageToIcoTool";
+import dynamic from "next/dynamic";
 import { ToolLayout } from "@/components/ToolLayout";
 import { isLocale } from "@/lib/i18n";
+
+const ImageToIcoTool = dynamic(() => import("@/components/tools/ImageToIcoTool").then((module) => ({ default: module.ImageToIcoTool })), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params
@@ -18,6 +22,7 @@ export async function generateMetadata({
         : "Convert images to ICO format online with browser-side processing for speed and privacy."
   };
 }
+
 
 export default function ImageToIcoPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();

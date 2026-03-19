@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const { createCanvas } = require('canvas');
+import fs from 'fs';
+import path from 'path';
+import { createCanvas } from 'canvas';
 // 使用动态导入来处理ES模块
-const { default: pngToIco } = require('png-to-ico');
+import pngToIco from 'png-to-ico';
 
 // 创建一个64x64的画布
 const canvas = createCanvas(64, 64);

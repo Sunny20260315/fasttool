@@ -9,10 +9,17 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ToolsGrid } from "@/components/ToolsGrid";
 import { getMessages, isLocale } from "@/lib/i18n";
 
-import BannerCarousel from "@/components/BannerCarousel";
+import dynamic from "next/dynamic";
+
+const ToolsGrid = dynamic(() => import("@/components/ToolsGrid").then((module) => ({ default: module.ToolsGrid })), {
+  ssr: false,
+});
+
+const BannerCarousel = dynamic(() => import("@/components/BannerCarousel"), {
+  ssr: false,
+});
 
 export async function generateMetadata({
   params,
