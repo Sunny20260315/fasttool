@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUp, CalendarDays, Clock3, Facebook, Linkedin, Tag, Twitter, User } from "lucide-react";
+import { CalendarDays, Clock3,  Tag,  User } from "lucide-react";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/lib/i18n";
 
@@ -998,7 +998,7 @@ export default function BlogDetailPage({
             />
 
             {/* 分享按钮 */}
-            <div className="mt-10 border-t border-gray-200 pt-8">
+            {/* <div className="mt-10 border-t border-gray-200 pt-8">
               <h3 className="mb-4 text-lg font-semibold text-gray-900">
                 {isZh ? "分享这篇文章" : "Share this article"}
               </h3>
@@ -1031,7 +1031,7 @@ export default function BlogDetailPage({
                   LinkedIn
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* 侧边栏 */}
@@ -1065,6 +1065,5 @@ export default function BlogDetailPage({
           </div>
         </article>
       </main>
-    </>
   );
 }

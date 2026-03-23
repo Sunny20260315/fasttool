@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getMessages, isLocale } from "@/lib/i18n";
+import { isLocale } from "@/lib/i18n";
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
@@ -14,13 +14,12 @@ export async function generateMetadata({
     title: isZh ? "关于我们 - FastTool" : "About Us - FastTool",
     description: isZh
       ? "了解 FastTool 的故事、使命和团队。我们致力于打造免费、隐私友好的在线工具平台。"
-      : "Learn about FastTool's story, mission, and team. We are dedicated to building free, privacy-friendly online tools."
+      : "Learn about FastTool's story, mission, and team. We are dedicated to building free, privacy-friendly online tools.",
   };
 }
 
 export default function AboutPage({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound();
-  const t = getMessages(params.locale);
   const isZh = params.locale === "zh";
 
   return (
@@ -64,31 +63,63 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
               </h3>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">1</span>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">
+                    1
+                  </span>
                   <div>
-                    <strong className="text-gray-900">{isZh ? "完全免费" : "Completely Free"}</strong>
-                    <p className="text-sm text-gray-600">{isZh ? "所有核心功能永久免费，无需注册" : "All core features free forever, no registration needed"}</p>
+                    <strong className="text-gray-900">
+                      {isZh ? "完全免费" : "Completely Free"}
+                    </strong>
+                    <p className="text-sm text-gray-600">
+                      {isZh
+                        ? "所有核心功能永久免费，无需注册"
+                        : "All core features free forever, no registration needed"}
+                    </p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">2</span>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">
+                    2
+                  </span>
                   <div>
-                    <strong className="text-gray-900">{isZh ? "隐私优先" : "Privacy First"}</strong>
-                    <p className="text-sm text-gray-600">{isZh ? "浏览器本地处理，文件不上传服务器" : "Browser-side processing, files never uploaded"}</p>
+                    <strong className="text-gray-900">
+                      {isZh ? "隐私优先" : "Privacy First"}
+                    </strong>
+                    <p className="text-sm text-gray-600">
+                      {isZh
+                        ? "浏览器本地处理，文件不上传服务器"
+                        : "Browser-side processing, files never uploaded"}
+                    </p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">3</span>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">
+                    3
+                  </span>
                   <div>
-                    <strong className="text-gray-900">{isZh ? "简单易用" : "Simple & Easy"}</strong>
-                    <p className="text-sm text-gray-600">{isZh ? "直观的界面设计，无需学习成本" : "Intuitive interface design, no learning curve"}</p>
+                    <strong className="text-gray-900">
+                      {isZh ? "简单易用" : "Simple & Easy"}
+                    </strong>
+                    <p className="text-sm text-gray-600">
+                      {isZh
+                        ? "直观的界面设计，无需学习成本"
+                        : "Intuitive interface design, no learning curve"}
+                    </p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">4</span>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7268f6] text-xs text-white">
+                    4
+                  </span>
                   <div>
-                    <strong className="text-gray-900">{isZh ? "持续改进" : "Continuous Improvement"}</strong>
-                    <p className="text-sm text-gray-600">{isZh ? "根据用户反馈不断优化和添加功能" : "Constantly optimizing and adding features based on feedback"}</p>
+                    <strong className="text-gray-900">
+                      {isZh ? "持续改进" : "Continuous Improvement"}
+                    </strong>
+                    <p className="text-sm text-gray-600">
+                      {isZh
+                        ? "根据用户反馈不断优化和添加功能"
+                        : "Constantly optimizing and adding features based on feedback"}
+                    </p>
                   </div>
                 </li>
               </ul>
@@ -129,19 +160,27 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             <div className="text-center">
               <div className="text-4xl font-bold text-[#7268f6]">30+</div>
-              <div className="mt-2 text-sm text-gray-600">{isZh ? "在线工具" : "Online Tools"}</div>
+              <div className="mt-2 text-sm text-gray-600">
+                {isZh ? "在线工具" : "Online Tools"}
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-[#7268f6]">100%</div>
-              <div className="mt-2 text-sm text-gray-600">{isZh ? "免费使用" : "Free to Use"}</div>
+              <div className="mt-2 text-sm text-gray-600">
+                {isZh ? "免费使用" : "Free to Use"}
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-[#7268f6]">0</div>
-              <div className="mt-2 text-sm text-gray-600">{isZh ? "文件上传" : "File Uploads"}</div>
+              <div className="mt-2 text-sm text-gray-600">
+                {isZh ? "文件上传" : "File Uploads"}
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-[#7268f6]">24/7</div>
-              <div className="mt-2 text-sm text-gray-600">{isZh ? "全天候服务" : "Always Available"}</div>
+              <div className="mt-2 text-sm text-gray-600">
+                {isZh ? "全天候服务" : "Always Available"}
+              </div>
             </div>
           </div>
         </div>
@@ -165,16 +204,32 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
               />
             </div>
             <div className="flex-1">
-              <h3 className="text-2xl font-semibold text-gray-900">{isZh ? "前端鱼姐" : "Yujie"}</h3>
-              <p className="mt-1 text-sm text-gray-600">{isZh ? "独立开发者 / 技术博主" : "Indie Developer / Tech Blogger"}</p>
+              <h3 className="text-2xl font-semibold text-gray-900">
+                {isZh ? "前端鱼姐" : "Yujie"}
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">
+                {isZh
+                  ? "独立开发者 / 技术博主"
+                  : "Indie Developer / Tech Blogger"}
+              </p>
               <p className="mt-4 text-base leading-7 text-gray-700">
                 {isZh
                   ? "拥有7年前端开发经验，热爱开源和技术分享。FastTool 是我在业余时间开发的作品，希望能帮助更多人高效处理数字内容。我相信好的工具应该像空气一样自然存在，不打扰却能解决实际问题。"
                   : "With 7 years of frontend development experience, passionate about open source and tech sharing. FastTool is a side project I built to help more people process digital content efficiently. I believe good tools should exist naturally like air - unobtrusive yet solving real problems."}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Python"].map((tag) => (
-                  <span key={tag} className="rounded-full bg-[#f3f5ff] px-3 py-1 text-xs font-medium text-gray-700">
+                {[
+                  "React",
+                  "Next.js",
+                  "TypeScript",
+                  "Tailwind CSS",
+                  "Node.js",
+                  "Python",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-[#f3f5ff] px-3 py-1 text-xs font-medium text-gray-700"
+                  >
                     {tag}
                   </span>
                 ))}
@@ -202,7 +257,7 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
               </p>
               <div className="mt-6">
                 <a
-                  href="mailto:contact@fasttool.app"
+                  href="mailto:yujing20250310@gmail.com"
                   className="inline-flex items-center gap-2 rounded-lg bg-[#7268f6] px-6 py-3 text-white transition hover:bg-[#5f56e5]"
                 >
                   {isZh ? "发送邮件" : "Send Email"}
@@ -220,15 +275,15 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
               </p>
               <div className="mt-6 flex gap-4">
                 <a
-                  href="https://twitter.com/fasttool"
+                  href="https://blog.csdn.net/sinat_33255495?spm=1010.2135.3001.10640"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-lg bg-white px-4 py-2 text-gray-700 transition hover:bg-gray-50"
                 >
-                  Twitter
+                  CSDN
                 </a>
                 <a
-                  href="https://github.com/fasttool"
+                  href="https://github.com/Sunny20260315/fasttool"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-lg bg-white px-4 py-2 text-gray-700 transition hover:bg-gray-50"
