@@ -38,6 +38,9 @@ export function Footer({ locale }: Props) {
           <Link href={`/${locale}/privacy`} className="transition hover:text-gray-800">
             {t.nav.privacy}
           </Link>
+          <Link href={`/${locale}/terms`} className="transition hover:text-gray-800">
+            {t.nav.terms || "Terms"}
+          </Link>
         </nav>
       </div>
     </footer>

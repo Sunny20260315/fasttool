@@ -7,6 +7,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 const nextConfig = {
   output: 'export', // 静态导出，适配 Cloudflare Pages
+  distDir: 'dist', // Cloudflare Pages 期望的输出目录
   reactStrictMode: true,
   images: {
     formats: ["image/avif", "image/webp"],
