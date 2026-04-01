@@ -27,14 +27,14 @@ export default function PdfToolsPage({ params }: { params: { locale: string } })
 
       <ToolsGrid locale={params.locale} category="pdf" />
 
-      <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
+      {/* <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
         <p className="text-lg font-medium text-gray-600">
           {params.locale === "zh" ? "未完待续" : "More features coming soon..."}
         </p>
         <p className="mt-2 text-sm text-gray-500">
           {params.locale === "zh" ? "更多PDF转换工具正在开发中，敬请期待" : "More PDF conversion tools are under development, stay tuned"}
         </p>
-      </div>
+      </div> */}
     </main>
   );
 }

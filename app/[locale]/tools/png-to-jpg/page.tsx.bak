@@ -218,7 +218,24 @@ PNG's alpha channel is not supported by JPG and requires special handling:
 **Canvas API Implementation**
 
 Our tool uses HTML5 Canvas's built-in capabilities:
+
+```
+// Create Canvas element
+const canvas = document.createElement('canvas');
+canvas.width = image.width;
+canvas.height = image.height;
+
+// Fill white background (handle transparency)
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = '#FFFFFF';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+// Draw PNG image
+ctx.drawImage(image, 0, 0);
+
+// Export as JPG
 const jpgDataUrl = canvas.toDataURL('image/jpeg', quality);
+```
 
 **Quality Optimization Strategy**
 

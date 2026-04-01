@@ -28,6 +28,18 @@ type Props = {
   features?: Feature[];
   tips?: string[];
   children: ReactNode;
+  whyChooseSection?: {
+    title: string;
+    content: string;
+  };
+  technicalDetails?: {
+    title: string;
+    content: string;
+  };
+  comparisonData?: {
+    title: string;
+    content: string;
+  };
 };
 
 export function ToolLayout({ 
@@ -41,7 +53,10 @@ export function ToolLayout({
   useCases,
   features,
   tips,
-  children 
+  children,
+  whyChooseSection,
+  technicalDetails,
+  comparisonData
 }: Props) {
   const faqSchema = {
     "@context": "https://schema.org",
@@ -72,6 +87,42 @@ export function ToolLayout({
           <p>{introduction}</p>
         </div>
       </section>
+
+      {/* 为什么选择我们 */}
+      {whyChooseSection && (
+        <section className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-soft">
+          <h2 className="mb-4 text-2xl font-semibold">{whyChooseSection.title}</h2>
+          <div className="prose prose-gray max-w-none text-gray-600">
+            {whyChooseSection.content.split('\n\n').map((paragraph, index) => (
+              <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 技术原理 */}
+      {technicalDetails && (
+        <section className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-soft">
+          <h2 className="mb-4 text-2xl font-semibold">{technicalDetails.title}</h2>
+          <div className="prose prose-gray max-w-none text-gray-600">
+            {technicalDetails.content.split('\n\n').map((paragraph, index) => (
+              <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 对比数据 */}
+      {comparisonData && (
+        <section className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-soft">
+          <h2 className="mb-4 text-2xl font-semibold">{comparisonData.title}</h2>
+          <div className="prose prose-gray max-w-none text-gray-600">
+            {comparisonData.content.split('\n\n').map((paragraph, index) => (
+              <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 功能特点 */}
       {features && features.length > 0 && (

@@ -130,6 +130,13 @@ export const tools: ToolItem[] = [
     title: { en: "PDF to Image", zh: "PDF转图片" },
     description: { en: "Export PDF pages as images.", zh: "将 PDF 页面导出为图片。" }
   },
+  {
+    slug: "image-to-pdf",
+    icon: FileImage,
+    category: "pdf",
+    title: { en: "Image to PDF", zh: "图片转PDF" },
+    description: { en: "Merge images into one PDF.", zh: "将图片合并为 PDF。" }
+  },
   // {
   //   slug: "pdf-to-ppt",
   //   icon: FileBarChart,
@@ -150,13 +157,6 @@ export const tools: ToolItem[] = [
   //   category: "pdf",
   //   title: { en: "Word to PDF", zh: "Word转PDF" },
   //   description: { en: "Convert Word documents to PDF.", zh: "将 Word 文档转换为 PDF。" }
-  // },
-  // {
-  //   slug: "image-to-pdf",
-  //   icon: FileImage,
-  //   category: "pdf",
-  //   title: { en: "Image to PDF", zh: "图片转PDF" },
-  //   description: { en: "Merge images into one PDF.", zh: "将图片合并为 PDF。" }
   // },
   // {
   //   slug: "ppt-to-pdf",
