@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/server",
+    "rootDir": "./server",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["server/**/*"],
+  "exclude": ["node_modules"]
+}

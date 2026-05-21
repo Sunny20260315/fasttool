@@ -14,9 +14,17 @@ type Props = {
   locale: Locale;
   onFileSelect: ((files: UploadedPdf[]) => void) | ((file: UploadedPdf) => void);
   multiple?: boolean;
+  accept?: string;
+  placeholderText?: string;
 };
 
-export function PdfUploadArea({ locale, onFileSelect, multiple = false }: Props) {
+export function PdfUploadArea({ 
+  locale, 
+  onFileSelect, 
+  multiple = false, 
+  accept = ".pdf",
+  placeholderText 
+}: Props) {
   const [dragOver, setDragOver] = useState(false);
   const [fileMeta, setFileMeta] = useState<UploadedPdf[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,14 +32,23 @@ export function PdfUploadArea({ locale, onFileSelect, multiple = false }: Props)
   const handleFiles = async (files: FileList | null) => {
     if (!files) return;
     
-    // 根据目标格式过滤文件
-    const filteredFiles = Array.from(files);
+    // 根据accept属性过滤文件（如果提供了accept）
+    let filteredFiles = Array.from(files);
+    if (accept && accept !== "*") {
+      const acceptExtensions = accept.split(',').map(ext => ext.trim().toLowerCase());
+      filteredFiles = filteredFiles.filter(file => {
+        const fileName = file.name.toLowerCase();
+        return acceptExtensions.some(ext => {
+          if (ext.startsWith('.')) {
+            return fileName.endsWith(ext);
+          }
+          return file.type === ext;
+        });
+      });
+    }
     
     // 处理不同的文件类型
     if (typeof onFileSelect === 'function') {
-      // 这里可以根据具体的转换类型添加文件类型过滤逻辑
-      // 暂时不过滤，让具体的工具组件处理文件类型验证
-      
       const uploadedFiles = filteredFiles.map(file => ({
         file
       }));
@@ -67,15 +84,15 @@ export function PdfUploadArea({ locale, onFileSelect, multiple = false }: Props)
         >
           <UploadCloud className="mx-auto mb-3 h-8 w-8 text-gray-500" />
           <p className="text-sm text-gray-600">
-            {multiple ? 
-              (locale === "zh" ? "拖拽多个 PDF 文件到这里或点击上传" : "Drag multiple PDF files here or click to upload") : 
-              (locale === "zh" ? "拖拽 PDF 文件到这里或点击上传" : "Drag PDF file here or click to upload")
+            {placeholderText || (multiple ? 
+              (locale === "zh" ? "拖拽多个文件到这里或点击上传" : "Drag multiple files here or click to upload") : 
+              (locale === "zh" ? "拖拽文件到这里或点击上传" : "Drag file here or click to upload"))
             }
           </p>
           <input
             ref={inputRef}
             type="file"
-            accept=".pdf"
+            accept={accept}
             multiple={multiple}
             className="hidden"
             onChange={async (event) => {
@@ -87,7 +104,7 @@ export function PdfUploadArea({ locale, onFileSelect, multiple = false }: Props)
         {fileMeta.length > 0 && (
           <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-600">
             <p className="font-medium mb-2">
-              {locale === "zh" ? `已上传 ${fileMeta.length} 个 PDF 文件` : `Uploaded ${fileMeta.length} PDF files`}
+              {locale === "zh" ? `已上传 ${fileMeta.length} 个文件` : `Uploaded ${fileMeta.length} files`}
             </p>
             <ul className="space-y-1">
               {fileMeta.map((meta, index) => (

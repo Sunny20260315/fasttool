@@ -1,4 +1,4 @@
-import { Crop, ImageDown, Scan, FileImage, Monitor, RotateCcw, FileDown, Code } from "lucide-react";
+import { Crop, ImageDown, Scan, FileImage, Monitor, RotateCcw, FileDown, Code, FileText } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 
@@ -136,6 +136,13 @@ export const tools: ToolItem[] = [
     category: "pdf",
     title: { en: "Image to PDF", zh: "图片转PDF" },
     description: { en: "Merge images into one PDF.", zh: "将图片合并为 PDF。" }
+  },
+  {
+    slug: "markdown-to-pdf",
+    icon: FileText,
+    category: "pdf",
+    title: { en: "Markdown to PDF", zh: "Markdown转PDF" },
+    description: { en: "Convert Markdown to PDF format.", zh: "将 Markdown 转为 PDF。" }
   },
   // {
   //   slug: "pdf-to-ppt",

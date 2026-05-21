@@ -1,14 +1,52 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+import { ToolLayout } from "@/components/ToolLayout";
+import { isLocale } from "@/lib/i18n";
 
-export default function PdfToImagePage({ params }: { params: { locale: string } }) {
+const PdfToImageTool = dynamic(
+  () =>
+    import("@/components/tools/PdfToImageTool").then((module) => ({
+      default: module.PdfToImageTool,
+    })),
+  {
+    ssr: false,
+  },
+);
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  if (!isLocale(params.locale)) return {};
+  return {
+    title:
+      params.locale === "zh"
+        ? "PDF 转图片 - 免费在线工具"
+        : "PDF to Image | Online Free Converter - FastTool",
+    description:
+      params.locale === "zh"
+        ? "在线将 PDF 转换为图片，支持多种格式和分辨率，浏览器本地处理保护隐私。"
+        : "Convert PDF to images online with multiple formats and resolutions. Browser-side processing for privacy.",
+  };
+}
+
+export default function PdfToImagePage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   if (!isLocale(params.locale)) notFound();
 
   const isZh = params.locale === "zh";
-  
+
   // 为 PDF 转图片工具添加详细内容
-  const detailedContent = isZh ? {
-    whyChooseSection: {
-      title: "为什么选择 FastTool PDF 转图片转换器？",
-      content: `PDF 是优秀的文档格式，但有时我们需要提取 PDF 中的页面作为图片使用，用于演示文稿、社交媒体分享、文档插图等场景。FastTool PDF 转图片转换器采用先进的浏览器端渲染技术，为您提供安全、高质量、灵活的 PDF 转图片服务。
+  const detailedContent = isZh
+    ? {
+        whyChooseSection: {
+          title: "为什么选择 FastTool PDF 转图片转换器？",
+          content: `PDF 是优秀的文档格式，但有时我们需要提取 PDF 中的页面作为图片使用，用于演示文稿、社交媒体分享、文档插图等场景。FastTool PDF 转图片转换器采用先进的浏览器端渲染技术，为您提供安全、高质量、灵活的 PDF 转图片服务。
 
 **核心优势**
 - **本地转换架构**：基于 pdf.js 和 Canvas API，所有转换操作在浏览器中完成，无需上传到服务器
@@ -24,11 +62,11 @@ export default function PdfToImagePage({ params }: { params: { locale: string } 
 - 您的隐私完全得到保障
 
 **广泛应用场景**
-无论是制作演示文稿、提取合同扫描件、保存电子书插图、分享报告图表，还是归档重要文档，FastTool 都能为您提供专业的 PDF 转图片服务，让文档处理变得更加简单高效。`
-    },
-    technicalDetails: {
-      title: "PDF 转图片技术原理",
-      content: `PDF 转图片是将 PDF 页面渲染为位图图像的技术过程。这需要解析 PDF 的矢量图形和文本内容，并将其栅格化为像素图像。
+无论是制作演示文稿、提取合同扫描件、保存电子书插图、分享报告图表，还是归档重要文档，FastTool 都能为您提供专业的 PDF 转图片服务，让文档处理变得更加简单高效。`,
+        },
+        technicalDetails: {
+          title: "PDF 转图片技术原理",
+          content: `PDF 转图片是将 PDF 页面渲染为位图图像的技术过程。这需要解析 PDF 的矢量图形和文本内容，并将其栅格化为像素图像。
 
 **PDF 文件结构解析**
 
@@ -54,33 +92,12 @@ PDF（Portable Document Format）是一种复杂的文档格式，包含多个�
 
 **2. 页面渲染阶段**
 使用 pdf.js 等渲染引擎将 PDF 页面绘制到 Canvas：
-```javascript
-// 加载 PDF 文档
-const loadingTask = pdfjsLib.getDocument(pdfData);
-const pdf = await loadingTask.promise;
-
-// 获取指定页面
-const page = await pdf.getPage(pageNumber);
-
-// 设置渲染参数
-const scale = 2.0; // 2 倍缩放，提高分辨率
-const viewport = page.getViewport({ scale });
-
-// 创建 Canvas 元素
-const canvas = document.createElement('canvas');
-canvas.width = viewport.width;
-canvas.height = viewport.height;
-
-// 渲染页面到 Canvas
-const renderContext = {
-  canvasContext: canvas.getContext('2d'),
-  viewport: viewport
-};
-await page.render(renderContext);
-
-// 导出为图片
-const imageDataUrl = canvas.toDataURL('image/png', quality);
-```
+- **文档加载**：使用 pdf.js 加载 PDF 文件并解析文档结构
+- **页面获取**：获取指定页码的页面对象
+- **视口设置**：设置渲染缩放比例，支持高分辨率输出
+- **Canvas 创建**：创建与页面尺寸匹配的 Canvas 元素
+- **页面渲染**：将 PDF 页面内容绘制到 Canvas
+- **图片导出**：将 Canvas 转换为图片格式输出
 
 **3. 栅格化处理**
 - **矢量转位图**：将 PDF 的矢量图形转换为像素点阵
@@ -128,66 +145,98 @@ const imageDataUrl = canvas.toDataURL('image/png', quality);
 - **抗锯齿处理**：对文字和图形边缘进行平滑处理
 - **字体优化**：使用高质量字体渲染引擎
 - **图像增强**：对嵌入图片进行适度锐化和色彩增强
-- **背景处理**：可选择白色背景或透明背景（PNG）`
-    },
-    useCases: [
-      { title: "演示文稿制作", description: "将 PDF 报告、图表转换为图片后插入 PPT，提升演示效果和专业性" },
-      { title: "合同归档", description: "将签署后的 PDF 合同转为图片存档，便于预览和快速检索" },
-      { title: "电子书摘录", description: "提取 PDF 电子书中的精彩插图、图表作为读书笔记或分享素材" },
-      { title: "社交媒体分享", description: "将 PDF 报告的关键页面转为图片，分享到微信、微博、LinkedIn 等平台" },
-      { title: "文档预览", description: "为 PDF 文档生成缩略图预览，便于文件管理和快速浏览" },
-      { title: "扫描件提取", description: "将扫描版 PDF 的页面提取为图片，用于 OCR 识别或图像编辑" }
-    ],
-    tips: [
-      "对于包含大量文字的 PDF 页面，建议使用 PNG 格式以获得最佳清晰度",
-      "输出分辨率建议设置为 2x（200%）或更高，确保文字清晰可读",
-      "如果 PDF 页面很大，可以降低分辨率或选择 JPG 格式以减小文件体积",
-      "批量转换多页 PDF 时，建议先测试单页效果确认设置合适",
-      "需要打印时，建议使用 300 DPI（约 3-4x 缩放）以确保打印质量",
-      "转换后的图片建议按"页码 - 名称"格式命名，便于整理和查找"
-    ],
-    faq: [
-      {
-        question: "支持哪些输出格式？",
-        answer: "我们支持 PNG、JPG 和 WebP 三种主流图片格式。PNG 适合高质量和透明背景需求，JPG 文件最小兼容性最好，WebP 压缩效率最高。您可以根据使用场景选择合适的格式。"
-      },
-      {
-        question: "PDF 的每一页都会转换吗？",
-        answer: "是的，默认情况下会将 PDF 的每一页转换为一张独立的图片。您也可以指定只转换某些页面（如第 1-5 页）。转换完成后，每张图片会以"页码 - 文件名"的格式命名。"
-      },
-      {
-        question: "可以调整输出图片的分辨率吗？",
-        answer: "可以的。我们提供多个分辨率选项：1x（72 DPI，适合屏幕显示）、2x（150 DPI，高清输出）、3x（300 DPI，打印质量）。分辨率越高，图片越清晰，但文件体积也会相应增大。"
-      },
-      {
-        question: "转换后的图片清晰度如何？",
-        answer: "我们使用高质量渲染引擎，默认 2x 缩放（约 150 DPI），确保文字和图形边缘清晰。对于包含小字的 PDF，建议使用 3x 缩放（300 DPI）以获得最佳清晰度。PNG 格式的清晰度最高。"
-      },
-      {
-        question: "支持加密的 PDF 吗？",
-        answer: "不支持。如果 PDF 被密码保护，需要先解除密码保护才能转换。这是为了保护您的文档安全，避免在未知密码的情况下误操作。"
-      },
-      {
-        question: "有文件大小或页数限制吗？",
-        answer: "由于浏览器性能限制，建议单个 PDF 文件不超过 50MB，总页数不超过 100 页。大多数日常文档都在此范围内。超大文件可能导致浏览器卡顿或转换失败。"
-      },
-      {
-        question: "我的 PDF 会被上传吗？",
-        answer: "绝对不会。所有转换操作都在您的浏览器本地完成，PDF 文件数据不会离开您的设备。这是我们的核心隐私保护特性，确保您的文档 100% 安全。"
-      },
-      {
-        question: "可以只转换特定页面吗？",
-        answer: "是的，您可以选择转换整个 PDF 的所有页面，也可以指定只转换某些页面（如"1,3,5-7,10"）。这样可以提高工作效率，减少不必要的文件生成。"
-      },
-      {
-        question: "转换后的图片可以用于商业用途吗？",
-        answer: "可以。您拥有转换后图片的完全使用权，我们不会添加任何水印或限制。无论是个人使用还是商业用途，都可以自由使用。"
+- **背景处理**：可选择白色背景或透明背景（PNG）`,
+        },
+        useCases: [
+          {
+            title: "演示文稿制作",
+            description:
+              "将 PDF 报告、图表转换为图片后插入 PPT，提升演示效果和专业性",
+          },
+          {
+            title: "合同归档",
+            description: "将签署后的 PDF 合同转为图片存档，便于预览和快速检索",
+          },
+          {
+            title: "电子书摘录",
+            description:
+              "提取 PDF 电子书中的精彩插图、图表作为读书笔记或分享素材",
+          },
+          {
+            title: "社交媒体分享",
+            description:
+              "将 PDF 报告的关键页面转为图片，分享到微信、微博、LinkedIn 等平台",
+          },
+          {
+            title: "文档预览",
+            description: "为 PDF 文档生成缩略图预览，便于文件管理和快速浏览",
+          },
+          {
+            title: "扫描件提取",
+            description:
+              "将扫描版 PDF 的页面提取为图片，用于 OCR 识别或图像编辑",
+          },
+        ],
+        tips: [
+          "对于包含大量文字的 PDF 页面，建议使用 PNG 格式以获得最佳清晰度",
+          "输出分辨率建议设置为 2x（200%）或更高，确保文字清晰可读",
+          "如果 PDF 页面很大，可以降低分辨率或选择 JPG 格式以减小文件体积",
+          "批量转换多页 PDF 时，建议先测试单页效果确认设置合适",
+          "需要打印时，建议使用 300 DPI（约 3-4x 缩放）以确保打印质量",
+          "转换后的图片建议按页码-名称格式命名，便于整理和查找",
+        ],
+        faq: [
+          {
+            question: "支持哪些输出格式？",
+            answer:
+              "我们支持 PNG、JPG 和 WebP 三种主流图片格式。PNG 适合高质量和透明背景需求，JPG 文件最小兼容性最好，WebP 压缩效率最高。您可以根据使用场景选择合适的格式。",
+          },
+          {
+            question: "PDF 的每一页都会转换吗？",
+            answer:
+              "是的，默认情况下会将 PDF 的每一页转换为一张独立的图片。您也可以指定只转换某些页面（如第 1-5 页）。转换完成后，每张图片会以页码-文件名的格式命名。",
+          },
+          {
+            question: "可以调整输出图片的分辨率吗？",
+            answer:
+              "可以的。我们提供多个分辨率选项：1x（72 DPI，适合屏幕显示）、2x（150 DPI，高清输出）、3x（300 DPI，打印质量）。分辨率越高，图片越清晰，但文件体积也会相应增大。",
+          },
+          {
+            question: "转换后的图片清晰度如何？",
+            answer:
+              "我们使用高质量渲染引擎，默认 2x 缩放（约 150 DPI），确保文字和图形边缘清晰。对于包含小字的 PDF，建议使用 3x 缩放（300 DPI）以获得最佳清晰度。PNG 格式的清晰度最高。",
+          },
+          {
+            question: "支持加密的 PDF 吗？",
+            answer:
+              "不支持。如果 PDF 被密码保护，需要先解除密码保护才能转换。这是为了保护您的文档安全，避免在未知密码的情况下误操作。",
+          },
+          {
+            question: "有文件大小或页数限制吗？",
+            answer:
+              "由于浏览器性能限制，建议单个 PDF 文件不超过 50MB，总页数不超过 100 页。大多数日常文档都在此范围内。超大文件可能导致浏览器卡顿或转换失败。",
+          },
+          {
+            question: "我的 PDF 会被上传吗？",
+            answer:
+              "绝对不会。所有转换操作都在您的浏览器本地完成，PDF 文件数据不会离开您的设备。这是我们的核心隐私保护特性，确保您的文档 100% 安全。",
+          },
+          {
+            question: "可以只转换特定页面吗？",
+            answer:
+              "是的，您可以选择转换整个 PDF 的所有页面，也可以指定只转换某些页面（如1,3,5-7,10）。这样可以提高工作效率，减少不必要的文件生成。",
+          },
+          {
+            question: "转换后的图片可以用于商业用途吗？",
+            answer:
+              "可以。您拥有转换后图片的完全使用权，我们不会添加任何水印或限制。无论是个人使用还是商业用途，都可以自由使用。",
+          },
+        ],
       }
-    ]
-  } : {
-    whyChooseSection: {
-      title: "Why Choose FastTool PDF to Image Converter?",
-      content: `PDF is an excellent document format, but sometimes we need to extract PDF pages as images for presentations, social media sharing, document illustrations, and other scenarios. FastTool PDF to Image Converter uses advanced browser-side rendering technology to provide you with secure, high-quality, and flexible PDF to image conversion services.
+    : {
+        whyChooseSection: {
+          title: "Why Choose FastTool PDF to Image Converter?",
+          content: `PDF is an excellent document format, but sometimes we need to extract PDF pages as images for presentations, social media sharing, document illustrations, and other scenarios. FastTool PDF to Image Converter uses advanced browser-side rendering technology to provide you with secure, high-quality, and flexible PDF to image conversion services.
 
 **Core Advantages**
 - **Local Conversion Architecture**: Based on pdf.js and Canvas API, all conversion operations complete in your browser without uploading to servers
@@ -203,11 +252,11 @@ We understand that PDF documents may contain business secrets, personal privacy,
 - Your privacy is fully protected
 
 **Wide Range of Applications**
-Whether it's creating presentations, extracting scanned contracts, saving e-book illustrations, sharing report charts, or archiving important documents, FastTool provides professional PDF to image services to make document processing simpler and more efficient.`
-    },
-    technicalDetails: {
-      title: "PDF to Image Conversion Technology Principles",
-      content: `PDF to image conversion is the technical process of rendering PDF pages into bitmap images. This requires parsing PDF's vector graphics and text content and rasterizing them into pixel images.
+Whether it's creating presentations, extracting scanned contracts, saving e-book illustrations, sharing report charts, or archiving important documents, FastTool provides professional PDF to image services to make document processing simpler and more efficient.`,
+        },
+        technicalDetails: {
+          title: "PDF to Image Conversion Technology Principles",
+          content: `PDF to image conversion is the technical process of rendering PDF pages into bitmap images. This requires parsing PDF's vector graphics and text content and rasterizing them into pixel images.
 
 **PDF File Structure Parsing**
 
@@ -233,33 +282,12 @@ PDF (Portable Document Format) is a complex document format containing multiple 
 
 **2. Page Rendering Phase**
 Use pdf.js and other rendering engines to draw PDF pages to Canvas:
-```javascript
-// Load PDF document
-const loadingTask = pdfjsLib.getDocument(pdfData);
-const pdf = await loadingTask.promise;
-
-// Get specific page
-const page = await pdf.getPage(pageNumber);
-
-// Set rendering parameters
-const scale = 2.0; // 2x scaling for higher resolution
-const viewport = page.getViewport({ scale });
-
-// Create Canvas element
-const canvas = document.createElement('canvas');
-canvas.width = viewport.width;
-canvas.height = viewport.height;
-
-// Render page to Canvas
-const renderContext = {
-  canvasContext: canvas.getContext('2d'),
-  viewport: viewport
-};
-await page.render(renderContext);
-
-// Export as image
-const imageDataUrl = canvas.toDataURL('image/png', quality);
-```
+- **Document Loading**: Load PDF file using pdf.js and parse document structure
+- **Page Retrieval**: Get page object for the specified page number
+- **Viewport Settings**: Set rendering scale for high-resolution output
+- **Canvas Creation**: Create Canvas element matching page dimensions
+- **Page Rendering**: Draw PDF page content to Canvas
+- **Image Export**: Convert Canvas to image format for output
 
 **3. Rasterization Processing**
 - **Vector to Bitmap**: Convert PDF's vector graphics to pixel arrays
@@ -307,68 +335,103 @@ const imageDataUrl = canvas.toDataURL('image/png', quality);
 - **Anti-Aliasing**: Smooth text and graphic edges
 - **Font Optimization**: Use high-quality font rendering engines
 - **Image Enhancement**: Apply moderate sharpening and color enhancement to embedded images
-- **Background Handling**: Can choose white background or transparent background (PNG)`
-    },
-    useCases: [
-      { title: "Presentation Creation", description: "Convert PDF reports and charts to images for insertion into PowerPoint, enhancing presentation effects and professionalism" },
-      { title: "Contract Archiving", description: "Convert signed PDF contracts to images for archiving, easier previewing and quick retrieval" },
-      { title: "E-book Extraction", description: "Extract wonderful illustrations and charts from PDF e-books as reading notes or sharing materials" },
-      { title: "Social Media Sharing", description: "Convert key pages from PDF reports to images for sharing on WeChat, Weibo, LinkedIn, and other platforms" },
-      { title: "Document Preview", description: "Generate thumbnail previews for PDF documents for easier file management and quick browsing" },
-      { title: "Scan Extraction", description: "Extract pages from scanned PDFs as images for OCR recognition or image editing" }
-    ],
-    tips: [
-      "For PDF pages with lots of text, we recommend PNG format for best clarity",
-      "We recommend setting output resolution to 2x (200 DPI) or higher to ensure text is clearly readable",
-      "If PDF pages are very large, reduce resolution or choose JPG format to decrease file size",
-      "When batch converting multi-page PDF, test with a single page first to confirm settings are appropriate",
-      "For printing, we recommend 300 DPI (approximately 3-4x scaling) to ensure print quality",
-      "We recommend naming converted images as "page-number-filename" for easier organization and retrieval"
-    ],
-    faq: [
-      {
-        question: "Which output formats are supported?",
-        answer: "We support PNG, JPG, and WebP - three mainstream image formats. PNG is suitable for high quality and transparent background needs, JPG has smallest file size and best compatibility, WebP has highest compression efficiency. You can choose the appropriate format based on your use case."
-      },
-      {
-        question: "Will every page of the PDF be converted?",
-        answer: "Yes, by default every page of the PDF will be converted to a separate image. You can also specify to convert only certain pages (e.g., pages 1-5). After conversion, each image will be named in "page-number-filename" format."
-      },
-      {
-        question: "Can I adjust the output image resolution?",
-        answer: "Yes. We provide multiple resolution options: 1x (72 DPI, suitable for screen display), 2x (150 DPI, HD output), 3x (300 DPI, print quality). Higher resolution means clearer images but also larger file sizes."
-      },
-      {
-        question: "How clear will the converted images be?",
-        answer: "We use high-quality rendering engines with default 2x scaling (approximately 150 DPI) to ensure clear text and graphic edges. For PDFs with small text, we recommend 3x scaling (300 DPI) for best clarity. PNG format has the highest clarity."
-      },
-      {
-        question: "Are encrypted PDFs supported?",
-        answer: "No. If PDF is password-protected, it must be decrypted first before conversion. This protects your document security and prevents accidental operations on unknown passwords."
-      },
-      {
-        question: "Are there file size or page limits?",
-        answer: "Due to browser limitations, we recommend single PDF files under 50MB and total pages under 100. Most daily documents fall within this range. Very large files may cause browser lag or conversion failure."
-      },
-      {
-        question: "Will my PDF be uploaded?",
-        answer: "Absolutely not. All conversion operations happen locally in your browser - PDF data never leaves your device. This is our core privacy protection feature, ensuring 100% security of your documents."
-      },
-      {
-        question: "Can I convert only specific pages?",
-        answer: "Yes, you can choose to convert all pages of the entire PDF or specify only certain pages (e.g., "1,3,5-7,10"). This improves work efficiency and reduces unnecessary file generation."
-      },
-      {
-        question: "Can converted images be used commercially?",
-        answer: "Yes. You have full usage rights to converted images. We don't add any watermarks or restrictions. Free to use for both personal and commercial purposes."
-      }
-    ]
-  };
+- **Background Handling**: Can choose white background or transparent background (PNG)`,
+        },
+        useCases: [
+          {
+            title: "Presentation Creation",
+            description:
+              "Convert PDF reports and charts to images for insertion into PowerPoint, enhancing presentation effects and professionalism",
+          },
+          {
+            title: "Contract Archiving",
+            description:
+              "Convert signed PDF contracts to images for archiving, easier previewing and quick retrieval",
+          },
+          {
+            title: "E-book Extraction",
+            description:
+              "Extract wonderful illustrations and charts from PDF e-books as reading notes or sharing materials",
+          },
+          {
+            title: "Social Media Sharing",
+            description:
+              "Convert key pages from PDF reports to images for sharing on WeChat, Weibo, LinkedIn, and other platforms",
+          },
+          {
+            title: "Document Preview",
+            description:
+              "Generate thumbnail previews for PDF documents for easier file management and quick browsing",
+          },
+          {
+            title: "Scan Extraction",
+            description:
+              "Extract pages from scanned PDFs as images for OCR recognition or image editing",
+          },
+        ],
+        tips: [
+          "For PDF pages with lots of text, we recommend PNG format for best clarity",
+          "We recommend setting output resolution to 2x (200 DPI) or higher to ensure text is clearly readable",
+          "If PDF pages are very large, reduce resolution or choose JPG format to decrease file size",
+          "When batch converting multi-page PDF, test with a single page first to confirm settings are appropriate",
+          "For printing, we recommend 300 DPI (approximately 3-4x scaling) to ensure print quality",
+          "We recommend naming converted images as page-number-filename for easier organization and retrieval",
+        ],
+        faq: [
+          {
+            question: "Which output formats are supported?",
+            answer:
+              "We support PNG, JPG, and WebP - three mainstream image formats. PNG is suitable for high quality and transparent background needs, JPG has smallest file size and best compatibility, WebP has highest compression efficiency. You can choose the appropriate format based on your use case.",
+          },
+          {
+            question: "Will every page of the PDF be converted?",
+            answer:
+              "Yes, by default every page of the PDF will be converted to a separate image. You can also specify to convert only certain pages (e.g., pages 1-5). After conversion, each image will be named in page-number-filename format.",
+          },
+          {
+            question: "Can I adjust the output image resolution?",
+            answer:
+              "Yes. We provide multiple resolution options: 1x (72 DPI, suitable for screen display), 2x (150 DPI, HD output), 3x (300 DPI, print quality). Higher resolution means clearer images but also larger file sizes.",
+          },
+          {
+            question: "How clear will the converted images be?",
+            answer:
+              "We use high-quality rendering engines with default 2x scaling (approximately 150 DPI) to ensure clear text and graphic edges. For PDFs with small text, we recommend 3x scaling (300 DPI) for best clarity. PNG format has the highest clarity.",
+          },
+          {
+            question: "Are encrypted PDFs supported?",
+            answer:
+              "No. If PDF is password-protected, it must be decrypted first before conversion. This protects your document security and prevents accidental operations on unknown passwords.",
+          },
+          {
+            question: "Are there file size or page limits?",
+            answer:
+              "Due to browser limitations, we recommend single PDF files under 50MB and total pages under 100. Most daily documents fall within this range. Very large files may cause browser lag or conversion failure.",
+          },
+          {
+            question: "Will my PDF be uploaded?",
+            answer:
+              "Absolutely not. All conversion operations happen locally in your browser - PDF data never leaves your device. This is our core privacy protection feature, ensuring 100% security of your documents.",
+          },
+          {
+            question: "Can I convert only specific pages?",
+            answer:
+              "Yes, you can choose to convert all pages of the entire PDF or specify only certain pages (e.g., 1,3,5-7,10). This improves work efficiency and reduces unnecessary file generation.",
+          },
+          {
+            question: "Can converted images be used commercially?",
+            answer:
+              "Yes. You have full usage rights to converted images. We don't add any watermarks or restrictions. Free to use for both personal and commercial purposes.",
+          },
+        ],
+      };
 
   return (
     <ToolLayout
       locale={params.locale}
-      title={params.locale === "zh" ? "PDF 转图片转换器" : "PDF to Image Converter"}
+      title={
+        params.locale === "zh" ? "PDF 转图片转换器" : "PDF to Image Converter"
+      }
       description={
         params.locale === "zh"
           ? "免费在线将 PDF 转换为高清图片，支持 PNG、JPG、WebP 格式，浏览器本地处理保护隐私。"
@@ -381,8 +444,22 @@ const imageDataUrl = canvas.toDataURL('image/png', quality);
       }
       howToSteps={
         params.locale === "zh"
-          ? ["点击上传区域或拖拽 PDF 文件到页面", "选择输出格式（PNG/JPG/WebP）和质量参数", "可选择转换所有页面或指定页码", "点击「开始转换」按钮，浏览器将在本地执行转换", "预览转换效果，检查图片清晰度和格式", "满意后点击下载，保存图片到本地设备"]
-          : ["Click the upload area or drag and drop PDF files onto the page", "Select output format (PNG/JPG/WebP) and quality parameters", "Optionally choose to convert all pages or specific page numbers", "Click the 'Start Conversion' button - your browser will perform the conversion locally", "Preview conversion results to check image clarity and format", "Click download to save images to your device"]
+          ? [
+              "点击上传区域或拖拽 PDF 文件到页面",
+              "选择输出格式（PNG/JPG/WebP）和质量参数",
+              "可选择转换所有页面或指定页码",
+              "点击「开始转换」按钮，浏览器将在本地执行转换",
+              "预览转换效果，检查图片清晰度和格式",
+              "满意后点击下载，保存图片到本地设备",
+            ]
+          : [
+              "Click the upload area or drag and drop PDF files onto the page",
+              "Select output format (PNG/JPG/WebP) and quality parameters",
+              "Optionally choose to convert all pages or specific page numbers",
+              "Click the 'Start Conversion' button - your browser will perform the conversion locally",
+              "Preview conversion results to check image clarity and format",
+              "Click download to save images to your device",
+            ]
       }
       howToDetail={
         params.locale === "zh"
