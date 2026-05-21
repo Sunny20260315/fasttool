@@ -20,25 +20,41 @@ export function Footer({ locale }: Props) {
           </p>
         </div>
         <nav className="flex items-center gap-6 text-sm text-gray-500">
-          <Link href={`/${locale}/tools/image`} className="transition hover:text-gray-800">
+          <Link
+            href={`/${locale}/tools/image`}
+            className="transition hover:text-gray-800"
+          >
             {t.nav.imageTools}
           </Link>
-          <Link href={`/${locale}/tools/pdf`} className="transition hover:text-gray-800">
+          <Link
+            href={`/${locale}/tools/pdf`}
+            className="transition hover:text-gray-800"
+          >
             {t.nav.pdfTools}
           </Link>
-          <Link href={`/${locale}/faq`} className="transition hover:text-gray-800">
+          <a
+            href={`/${locale}#services`}
+            className="transition hover:text-gray-800"
+          >
+            {locale === "zh" ? "服务" : "Services"}
+          </a>
+
+          <Link
+            href={`/${locale}/faq`}
+            className="transition hover:text-gray-800"
+          >
             {t.nav.faq}
           </Link>
-          <Link href={`/${locale}/contact`} className="transition hover:text-gray-800">
-            {t.nav.contact}
-          </Link>
-          <Link href={`/${locale}/about`} className="transition hover:text-gray-800">
-            {t.nav.about}
-          </Link>
-          <Link href={`/${locale}/privacy`} className="transition hover:text-gray-800">
+          <Link
+            href={`/${locale}/privacy`}
+            className="transition hover:text-gray-800"
+          >
             {t.nav.privacy}
           </Link>
-          <Link href={`/${locale}/terms`} className="transition hover:text-gray-800">
+          <Link
+            href={`/${locale}/terms`}
+            className="transition hover:text-gray-800"
+          >
             {t.nav.terms || "Terms"}
           </Link>
         </nav>

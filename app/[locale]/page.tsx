@@ -13,9 +13,15 @@ import { getMessages, isLocale } from "@/lib/i18n";
 
 import dynamic from "next/dynamic";
 
-const ToolsGrid = dynamic(() => import("@/components/ToolsGrid").then((module) => ({ default: module.ToolsGrid })), {
-  ssr: false,
-});
+const ToolsGrid = dynamic(
+  () =>
+    import("@/components/ToolsGrid").then((module) => ({
+      default: module.ToolsGrid,
+    })),
+  {
+    ssr: false,
+  },
+);
 
 const BannerCarousel = dynamic(() => import("@/components/BannerCarousel"), {
   ssr: false,

@@ -10,7 +10,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
@@ -18,13 +18,13 @@ export async function generateMetadata({
   const t = getMessages(params.locale);
   return {
     title: t.site.title,
-    description: t.site.description
+    description: t.site.description,
   };
 }
 
 export default function LocaleLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
   params: { locale: string };

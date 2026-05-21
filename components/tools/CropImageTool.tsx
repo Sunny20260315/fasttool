@@ -366,7 +366,8 @@ export function CropImageTool({ locale }: Props) {
         >
           {uploaded ? (
             <>
-              {/* 原图 */}
+              {/* 原图 - 使用原生 img 是因为需要精确控制位置和缩放实现裁剪 */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={uploaded.previewUrl}
                 alt={uploaded.file.name}

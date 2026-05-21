@@ -6,20 +6,20 @@ import wxImage from "../../../public/wx.jpg";
 import xhsImage from "../../../public/xhs.jpg";
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
   if (!isLocale(params.locale)) return {};
   return {
-    title: params.locale === "zh" ? "联系我们 - FastTool" : "Contact Us - FastTool",
+    title:
+      params.locale === "zh" ? "联系我们 - FastTool" : "Contact Us - FastTool",
     description:
       params.locale === "zh"
-        ? "联系FastTool团队，提出问题、建议或合作意向。" 
-        : "Contact the FastTool team with questions, suggestions, or partnership inquiries."
+        ? "联系FastTool团队，提出问题、建议或合作意向。"
+        : "Contact the FastTool team with questions, suggestions, or partnership inquiries.",
   };
 }
-
 export default function ContactPage({
   params
 }: {

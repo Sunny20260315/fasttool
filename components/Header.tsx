@@ -28,21 +28,21 @@ export function Header({ locale }: Props) {
   const pathname = usePathname() || `/${locale}`;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isHome = pathname === `/${locale}`;
-  const isImageTools = pathname.startsWith(`/${locale}/tools`) && !pathname.includes("pdf");
-  const isPdfTools = pathname.startsWith(`/${locale}/tools`) && pathname.includes("pdf");
+  const isImageTools =
+    pathname.startsWith(`/${locale}/tools`) && !pathname.includes("pdf");
+  const isPdfTools =
+    pathname.startsWith(`/${locale}/tools`) && pathname.includes("pdf");
   const isFaq = pathname.startsWith(`/${locale}/faq`);
   const isContact = pathname.startsWith(`/${locale}/contact`);
+  const isServices = pathname.startsWith(`/${locale}/services`);
   const imageTools = getToolsByCategory("image");
   const pdfTools = getToolsByCategory("pdf");
 
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white">
+      <header className="fixed top-0 left-0 right-0 z-30 border-b border-gray-200/50 bg-white/80 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.08)]">
         <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between px-6">
-          <Link
-            href={`/${locale}`}
-            className="inline-flex items-center gap-3"
-          >
+          <Link href={`/${locale}`} className="inline-flex items-center gap-3">
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-blue-500 text-sm font-bold text-white shadow-[0_6px_18px_rgba(99,102,241,0.28)]">
               FT
             </span>
@@ -78,14 +78,17 @@ export function Header({ locale }: Props) {
                 <div className="grid grid-cols-2 gap-2">
                   {imageTools.map((tool, index) => {
                     const Icon = tool.icon;
-                    const iconBgClass = iconBgClasses[index % iconBgClasses.length];
+                    const iconBgClass =
+                      iconBgClasses[index % iconBgClasses.length];
                     return (
                       <Link
                         key={tool.slug}
                         href={`/${locale}/tools/${tool.slug}`}
                         className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50 hover:text-[#5e69f1]"
                       >
-                        <span className={`inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-white ${iconBgClass}`}>
+                        <span
+                          className={`inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-white ${iconBgClass}`}
+                        >
                           <Icon className="h-4 w-4" />
                         </span>
                         {tool.title[locale]}
@@ -111,14 +114,17 @@ export function Header({ locale }: Props) {
               <div className="invisible absolute left-0 top-full z-40 mt-3 w-72 rounded-2xl border border-gray-200 bg-white p-3 opacity-0 shadow-soft transition-all group-hover:visible group-hover:opacity-100">
                 {pdfTools.map((tool, index) => {
                   const Icon = tool.icon;
-                  const iconBgClass = iconBgClasses[index % iconBgClasses.length];
+                  const iconBgClass =
+                    iconBgClasses[index % iconBgClasses.length];
                   return (
                     <Link
                       key={tool.slug}
                       href={`/${locale}/tools/${tool.slug}`}
                       className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50 hover:text-[#5e69f1]"
                     >
-                      <span className={`inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-white ${iconBgClass}`}>
+                      <span
+                        className={`inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-white ${iconBgClass}`}
+                      >
                         <Icon className="h-4 w-4" />
                       </span>
                       {tool.title[locale]}
@@ -127,6 +133,16 @@ export function Header({ locale }: Props) {
                 })}
               </div>
             </div>
+            <Link
+              href={`/${locale}/services`}
+              className={`font-medium transition-colors ${
+                isServices
+                  ? "text-[#5e69f1]"
+                  : "text-muted-foreground hover:text-[#5e69f1]"
+              }`}
+            >
+              {t.nav.services}
+            </Link>
             <Link
               href={`/${locale}/faq`}
               className={`font-medium transition-colors ${
@@ -137,22 +153,12 @@ export function Header({ locale }: Props) {
             >
               {t.nav.faq}
             </Link>
-            <Link
-              href={`/${locale}/contact`}
-              className={`font-medium transition-colors ${
-                isContact
-                  ? "text-[#5e69f1]"
-                  : "text-muted-foreground hover:text-[#5e69f1]"
-              }`}
-            >
-              {t.nav.contact}
-            </Link>
           </nav>
 
           <div className="flex items-center gap-4 justify-self-end">
             {/* 语言切换器 - 始终显示 */}
             <LanguageSwitcher locale={locale} />
-            
+
             {/* 移动端菜单按钮 */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -166,7 +172,7 @@ export function Header({ locale }: Props) {
               )}
             </button>
           </div>
-          
+
           {/* 移动端侧边菜单 */}
           <div
             className={`fixed inset-0 z-50 transform transition-transform duration-300 ease-in-out ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
@@ -176,11 +182,13 @@ export function Header({ locale }: Props) {
               className="absolute inset-0 bg-black bg-opacity-50"
               onClick={() => setMobileMenuOpen(false)}
             />
-            
+
             {/* 菜单内容 */}
-            <div className="absolute right-0 top-0 h-full w-64 bg-white shadow-lg p-6 overflow-y-auto">
+            <div className="absolute right-0 top-0 h-full w-64 bg-white/95 backdrop-blur-xl shadow-lg p-6 overflow-y-auto">
               <div className="flex items-center justify-between mb-8">
-                <span className="text-xl font-bold text-gray-900">{t.site.name}</span>
+                <span className="text-xl font-bold text-gray-900">
+                  {t.site.name}
+                </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -188,7 +196,7 @@ export function Header({ locale }: Props) {
                   <X className="h-5 w-5 text-gray-700" />
                 </button>
               </div>
-              
+
               <nav className="space-y-6">
                 <Link
                   href={`/${locale}`}
@@ -197,7 +205,7 @@ export function Header({ locale }: Props) {
                 >
                   {t.nav.home}
                 </Link>
-                
+
                 {/* 图片工具 */}
                 <div className="space-y-2">
                   <Link
@@ -220,7 +228,7 @@ export function Header({ locale }: Props) {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* PDF工具 */}
                 <div className="space-y-2">
                   <Link
@@ -243,7 +251,7 @@ export function Header({ locale }: Props) {
                     ))}
                   </div>
                 </div>
-                
+
                 <Link
                   href={`/${locale}/faq`}
                   className={`block font-medium transition-colors ${isFaq ? "text-[#5e69f1]" : "text-muted-foreground hover:text-[#5e69f1]"}`}
@@ -265,7 +273,7 @@ export function Header({ locale }: Props) {
       </header>
 
       {/* Google AdSense - Below Navigation */}
-      <div className="mx-auto flex justify-center bg-gray-50">
+      <div className="mx-auto flex justify-center bg-gray-50 pt-[72px]">
         <AdPlaceholder />
       </div>
     </>
