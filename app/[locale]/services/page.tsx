@@ -1,16 +1,46 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
-// import Navigation from "@/components/portfolio/Navigation";
-import Hero from "@/components/portfolio/Hero";
-import Services from "@/components/portfolio/Services";
-import {
-  PortfolioProjectCard as ProjectCard,
-  Project,
-} from "@/components/portfolio/ProjectCard";
-import { PortfolioAbout as About } from "@/components/portfolio/About";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const Hero = dynamic(() => import("@/components/portfolio/Hero"), {
+  ssr: false,
+  loading: () => <div className="h-[60vh]" />,
+});
+const Services = dynamic(() => import("@/components/portfolio/Services"), {
+  ssr: false,
+  loading: () => <div className="py-20" />,
+});
+const About = dynamic(
+  () =>
+    import("@/components/portfolio/About").then((mod) => ({
+      default: mod.PortfolioAbout,
+    })),
+  {
+    ssr: false,
+    loading: () => <div className="py-20" />,
+  },
+);
+
+const ProjectCard = dynamic(
+  () =>
+    import("@/components/portfolio/ProjectCard").then((mod) => ({
+      default: mod.PortfolioProjectCard,
+    })),
+  { ssr: false },
+);
+
+type Project = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  tags: string[];
+  year: string;
+};
 
 export default function ServicesPage({
   params,

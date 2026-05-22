@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { useEffect } from "react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 interface BannerCarouselProps {
   locale: string;
@@ -16,7 +16,7 @@ interface BannerCarouselProps {
 export default function BannerCarousel({ locale }: BannerCarouselProps) {
   // Add custom styles for Swiper navigation
   useEffect(() => {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
       .swiper-button-prev,
       .swiper-button-next {
@@ -30,13 +30,13 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
         justify-content: center;
         transition: all 0.3s ease;
       }
-      
+
       .swiper-button-prev:hover,
       .swiper-button-next:hover {
         background: white;
         transform: scale(1.1);
       }
-      
+
       .swiper-button-prev::after,
       .swiper-button-next::after {
         font-size: 10px;
@@ -44,12 +44,12 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
         font-weight: bold;
         transition: all 0.3s ease;
       }
-      
+
       .swiper-button-prev:hover::after,
       .swiper-button-next:hover::after {
         color: #333;
       }
-      
+
       .swiper-button-prev svg,
       .swiper-button-next svg {
         width: 50%;
@@ -59,26 +59,26 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
         fill: currentcolor;
         pointer-events: none;
       }
-      
+
       .swiper-button-prev {
         left: 16px;
       }
-      
+
       .swiper-button-next {
         right: 16px;
       }
-      
+
       .swiper-pagination {
         bottom: 32px;
       }
-      
+
       .swiper-pagination-bullet {
         width: 8px;
         height: 8px;
         background: rgba(0, 0, 0, 0.3);
         opacity: 1;
       }
-      
+
       .swiper-pagination-bullet-active {
         background: #333;
         width: 24px;
@@ -87,7 +87,7 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       document.head.removeChild(style);
     };
@@ -95,7 +95,11 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
 
   return (
     <section className="w-full overflow-hidden border-b border-gray-200">
-      <div className="w-full min-h-[500px] h-[60vh]">
+      <div className="w-full min-h-[500px] h-[60vh] relative">
+        {/* 预留导航按钮空间，防止布局偏移 */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 pointer-events-none" />
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 pointer-events-none" />
+
         <Swiper
           modules={[Autoplay, Navigation, Pagination]}
           spaceBetween={0}
@@ -108,7 +112,7 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
           loop={true}
           navigation={true}
           pagination={{
-            el: '.swiper-pagination',
+            el: ".swiper-pagination",
             clickable: true,
           }}
           className="w-full h-full"
@@ -140,9 +144,7 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
                     </>
                   ) : (
                     <>
-                      Free Online{
-                        " "
-                      }
+                      Free Online{" "}
                       <span className="bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
                         FastTool
                       </span>
@@ -187,9 +189,7 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
               <div className="mx-auto max-w-4xl text-center">
                 <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-orange-100 bg-white/80 px-4 py-2 text-sm font-medium text-orange-500 shadow-sm">
                   <span>📄</span>
-                  {locale === "zh"
-                    ? "PDF 格式转换" 
-                    : "PDF Format Conversion"}
+                  {locale === "zh" ? "PDF 格式转换" : "PDF Format Conversion"}
                 </div>
 
                 <h2 className="mb-6 text-4xl font-semibold tracking-tight text-gray-900 md:text-6xl !font-bold">
@@ -202,9 +202,7 @@ export default function BannerCarousel({ locale }: BannerCarouselProps) {
                     </>
                   ) : (
                     <>
-                      Efficient{
-                        " "
-                      }
+                      Efficient{" "}
                       <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
                         PDF Conversion Tools
                       </span>

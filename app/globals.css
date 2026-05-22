@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 字体加载优化 - 防止字体切换导致的布局偏移 */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  src: local('Inter');
+}
+
 :root {
   color-scheme: light;
+  font-display: swap;
 }
 
 html,
